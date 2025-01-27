@@ -10,6 +10,13 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - "C:/Users/mayur/OneDrive/Documents/GitHub/data-engineering-zoomcamp-2025/02-workflow-orchestration/postgres/postgres-data:/var/lib/postgresql/data:rw"
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - "8080:80"    
 volumes:
   postgres-data:

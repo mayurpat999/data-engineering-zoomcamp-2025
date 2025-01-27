@@ -1,3 +1,28 @@
+C:/Users/mayur/OneDrive/Documents/GitHub/data-engineering-zoomcamp-2025/02-workflow-orchestration
+Network 02-workflow-orchestration_default         Created                                                       0.2s
+ ✔ Volume "02-workflow-orchestration_postgres-data"  Created                                                       0.0s
+ ✔ Volume "02-workflow-orchestration_kestra-data"    Created                                                       0.0s
+ ✔ Container 02-workflow-orchestration-postgres-1    Created                                                       0.2s
+ ✔ Container 02-workflow-orchestration-kestra-1      Created    
+
+  docker run -it \
+  -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
+  -e PGADMIN_DEFAULT_PASSWORD="root" \
+  -e POSTGRES_DB="kestra" \
+  -p 8080:80 \
+  --network=02-workflow-orchestration_default   \
+  --name pgadmin \
+  dpage/pgadmin4
+  
+  docker run -it \
+  -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
+  -e PGADMIN_DEFAULT_PASSWORD="root" \
+  -e POSTGRES_DB="ny_green_taxi" \
+  -p 8080:80 \
+  -name pgadmin \
+  dpage/pgadmin4
+  
+  
 ## Module 2 Homework
 
 ### Assignment

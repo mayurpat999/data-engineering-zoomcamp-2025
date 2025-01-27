@@ -21,7 +21,7 @@ services:
 
   kestra:
     image: kestra/kestra:latest
-    pull_policy: always
+    pull_policy: if_not_present
     user: "root"
     command: server standalone
     volumes:
@@ -53,10 +53,10 @@ services:
           tasks:
             tmpDir:
               path: /tmp/kestra-wd/tmp
-          url: http://localhost:8080/
+          url: http://localhost:18080/
     ports:
-      - "8080:8080"
-      - "8081:8081"
+      - "18080:8080"
+      - "18081:8081"
     depends_on:
       postgres:
         condition: service_started
