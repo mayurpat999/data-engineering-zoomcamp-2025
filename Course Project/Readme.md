@@ -86,7 +86,7 @@ Project Design: Medicare Provider Analysis Dashboard (GCP & Power BI)**
 *   **Data Source Connection:**
     1.  In Power BI Desktop, select "Get Data".
     2.  Search for and select "Google BigQuery".
-    3.  Connect using either Organizational account (if GCP and Azure AD/O365 are linked) or Service Account Login (Recommended for production/automated refreshes). Provide the Service Account email and the JSON key file content.
+    3.  Connect using either Organizational account or Service Account Login . Provide the Service Account email and the JSON key file content.
     4.  Navigate to your GCP Project -> `medicare_analytics` dataset.
     5.  Select the tables: `agg_provider_type_by_state` and `agg_service_summary`.
     6.  Choose "Import" mode (suitable for aggregated data) or "DirectQuery". Select "Import".
@@ -95,9 +95,6 @@ Project Design: Medicare Provider Analysis Dashboard (GCP & Power BI)**
         *   **Visualization Type:** Treemap (good for hierarchical proportions) or Filled Map.
         *   **Details (Treemap):** `provider_state`, `provider_type`
         *   **Values (Treemap):** `distinct_provider_count`
-        *   **Location (Map):** `provider_state`
-        *   **Legend (Map):** `provider_type`
-        *   **Bubble Size (Map):** `distinct_provider_count`
         *   **Description:** Shows the relative number of distinct Medicare providers across different states, broken down by their specialty/type. Add slicers for `provider_state` and `provider_type` for filtering.
     *   **Tile 2: Top 10 Most Frequent Services (National)**
         *   **Visualization Type:** Bar Chart (Horizontal or Vertical)
