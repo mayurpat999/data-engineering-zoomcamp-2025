@@ -1,4 +1,4 @@
-Project Design: Medicare Provider Analysis Dashboard (GCP & Power BI)**
+**Project Design: Medicare Provider Analysis Dashboard (GCP & Power BI)**
 
 **1) Problem Description**
 

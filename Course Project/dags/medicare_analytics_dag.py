@@ -29,7 +29,7 @@ STAGING_TABLE_NAME = f"stg_physicians_suppliers_{TARGET_YEAR}"
 default_args = {
     "owner": "airflow",
     "depends_on_past": False,
-    "email_on_failure": False, # Set to True and configure email if needed
+    "email_on_failure": False, 
     "email_on_retry": False,
     "retries": 1,
     "retry_delay": timedelta(minutes=5),
