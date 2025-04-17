@@ -12,12 +12,11 @@
 *   **IaC Tool:** Terraform (using the `google` provider).
 *   **Terraform Managed Resources:**
     *   **Project Setup:** GCP Project configuration (if managing projects via Terraform).
-    *   **Networking:** VPC Network, Subnets (if needed beyond default, e.g., for Composer private IP).
     *   **Storage:** Google Cloud Storage (GCS) Buckets (e.g., for dbt logs, temporary files, optional staging if needed - though less critical here as source is BigQuery).
     *   **Orchestration:** Cloud Composer 2 Environment.
     *   **Data Warehouse:** BigQuery Datasets (e.g., `medicare_staging`, `medicare_analytics`).
     *   **Identity & Access:** IAM Service Accounts (for Composer, dbt execution), Roles, and Bindings granting necessary permissions (e.g., Composer accessing BigQuery, BigQuery Data Editor/Viewer roles).
-    *   *(Note: Power BI setup is external to GCP IaC, but Service Account keys needed for Power BI connection can be generated and managed securely).*
+
 
 **3) Batch / Workflow Orchestration & End-to-End Pipeline**
 
