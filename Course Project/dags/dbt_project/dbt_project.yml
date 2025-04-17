@@ -1,0 +1,51 @@
+# dbt_project/dbt_project.yml
+
+name: 'medicare_analytics'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'medicare_pipeline' # Matches the profile name in profiles.yml
+
+# These configurations specify where dbt should look for different types of files.
+# Relative to the dbt_project.yml file.
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+# Specifies where compiled SQL and run artifacts are written.
+# Default is usually fine.
+target-path: "target"
+# Specifies directories to remove when running dbt clean.
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+
+# Configuring models specific to this project
+models:
+  medicare_analytics: # Corresponds to the 'name' of the project above
+    # Apply settings to all models in the 'staging' subdirectory
+    staging:
+      +materialized: view # Default staging models to views (cheaper, faster for simple transforms)
+      # You can add tags, schemas, etc. here
+      +schema: "{{ env_var('BQ_STAGING_DATASET', 'medicare_staging') }}" # Use staging dataset by default
+
+    # Apply settings to all models in the 'analytics' subdirectory
+    analytics:
+      +materialized: table # Default analytics models to tables (persisted, optimized)
+      # Schema defined in the model's config block takes precedence,
+      # but this sets the default if not specified there.
+      +schema: "{{ env_var('BQ_ANALYTICS_DATASET', 'medicare_analytics') }}" # Use analytics dataset
+      # Could define default partition/cluster settings here,
+      # but often better to do it per-model for clarity.
+
+# Define project-level variables (can be overridden by --vars in CLI)
+vars:
+  # Default year if not provided by Airflow - good for local testing
+  target_year: "{{ env_var('DBT_TARGET_YEAR', '2019') }}"
+  # Define the staging table name using the variable
+  medicare_staging_table: "stg_physicians_suppliers_{{ var('target_year') }}"

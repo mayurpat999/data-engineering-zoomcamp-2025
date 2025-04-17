@@ -1,0 +1,42 @@
+# dbt_project/models/staging/schema.yml
+
+version: 2
+
+sources:
+  - name: medicare_staging_source # Arbitrary source name
+    # schema: loaded dynamically via profiles.yml typically or env var
+    schema: "{{ env_var('BQ_STAGING_DATASET', 'medicare_staging') }}"
+    description: "Raw Medicare data loaded by Airflow pipeline."
+    tables:
+      - name: "{{ var('medicare_staging_table') }}" # Use the variable defined in dbt_project.yml
+        description: "Staging table for Medicare Physicians and Other Suppliers data for year {{ var('target_year') }}."
+        # Optionally list expected columns from the source here
+        # columns:
+        #   - name: npi
+        #     description: "National Provider Identifier"
+
+models:
+  - name: stg_medicare_physicians_suppliers
+    description: "Staged Medicare data, cleaned and casted types from source for a specific year. One row per provider per HCPCS code."
+    columns:
+      - name: npi
+        description: "National Provider Identifier"
+        tests:
+          - not_null
+      - name: provider_state
+        description: "State where the provider is located."
+        tests:
+          - not_null
+      - name: hcpcs_code
+        description: "Healthcare Common Procedure Coding System code for the service."
+        tests:
+          - not_null
+      - name: line_srvc_cnt
+        description: "Number of services rendered for this provider/HCPCS combination."
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_positive: {} # Example custom test (requires package)
+      - name: year
+        description: "The year the data corresponds to."
+        tests:
+          - not_null

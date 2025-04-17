@@ -1,0 +1,50 @@
+# dbt_project/models/analytics/schema.yml
+
+version: 2
+
+models:
+  - name: agg_provider_type_by_state
+    description: "Aggregated distinct provider counts and total services by state, provider type, and year."
+    columns:
+      - name: provider_state
+        description: "State abbreviation."
+        tests:
+          - not_null
+      - name: provider_type
+        description: "Type or specialty of the provider."
+        tests:
+          - not_null
+      - name: year
+        description: "Year of the data."
+        tests:
+          - not_null
+      - name: distinct_provider_count
+        description: "Count of unique NPIs for the state/type/year combination."
+        tests:
+          - not_null
+    # Test for uniqueness of the combination of grain columns
+    tests:
+      - unique:
+          column_names: [provider_state, provider_type, year]
+
+  - name: agg_service_summary
+    description: "Aggregated service counts and average amounts by HCPCS code and year."
+    columns:
+      - name: hcpcs_code
+        description: "HCPCS service code."
+        tests:
+          - not_null
+      - name: year
+        description: "Year of the data."
+        tests:
+          - not_null
+      - name: total_times_rendered
+        description: "Total number of times the service was rendered nationally in the year."
+        tests:
+          - not_null
+      - name: hcpcs_description
+        description: "Description of the HCPCS service code."
+    # Test for uniqueness of the combination of grain columns
+    tests:
+      - unique:
+          column_names: [hcpcs_code, year]
