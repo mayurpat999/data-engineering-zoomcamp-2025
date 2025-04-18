@@ -28,24 +28,7 @@
         1.  `start_pipeline`: DummyOperator marking the start.
         2.  `create_staging_table`: `BigQueryOperator` executing a `CREATE OR REPLACE TABLE` statement.
             *   **Action:** Selects relevant columns from the public dataset (`bigquery-public-data.medicare.physicians_and_other_suppliers_2019`) and copies them into a staging table within our project (e.g., `your-gcp-project.medicare_staging.stg_physicians_suppliers_2019`). This isolates our processing from the public dataset and potentially allows pre-filtering or casting.
-            *   **Example Query:**
-                ```sql
-                CREATE OR REPLACE TABLE `your-gcp-project.medicare_staging.stg_physicians_suppliers_2019` AS
-                SELECT
-                  npi, -- National Provider Identifier
-                  nppes_provider_last_org_name,
-                  nppes_provider_first_name,
-                  nppes_provider_state,
-                  provider_type,
-                  hcpcs_code, -- Healthcare Common Procedure Coding System
-                  hcpcs_description,
-                  line_srvc_cnt, -- Number of services rendered
-                  average_medicare_allowed_amt
-                FROM
-                  `bigquery-public-data.medicare.physicians_and_other_suppliers_2019`
-                -- Optional: Add WHERE clauses here if needed
-                ;
-                ```
+            *
         3.  `run_dbt_transformations`: `BashOperator` (or KubernetesPodOperator if dbt runs in a container).
             *   **Action:** Navigates to the dbt project directory (checked out from a repo like Cloud Source Repositories) and executes `dbt run --profiles-dir . --target prod`. Assumes dbt is installed in the Composer environment or worker, and the `profiles.yml` is configured for BigQuery using a service account.
         4.  `end_pipeline`: DummyOperator marking successful completion.
